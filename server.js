@@ -9,7 +9,7 @@ app.use(cors());
 // MongoDB Connection
 mongoose.connect('mongodb+srv://tinyji6887_db_user:85158@cluster0.zu7kwc5.mongodb.net/magesports?appName=Cluster0')
 .then(() => console.log('Database Connected!'))
-.catch(err => console.log(err));
+.catch(err => console.log("DB Connection Error:", err));
 
 // Schemas
 const Team = mongoose.model('Team', new mongoose.Schema({
@@ -23,32 +23,30 @@ const Lobby = mongoose.model('Lobby', new mongoose.Schema({
   status: { type: String, default: "Open" }
 }));
 
-// API Routes
+// User APIs
 app.get('/lobbies', async (req, res) => { res.json(await Lobby.find()); });
-
 app.get('/points', async (req, res) => { res.json(await Team.find({ isVerified: true })); });
-
 app.post('/register', async (req, res) => {
   await new Team(req.body).save();
-  res.json({ message: 'Registration Done!' });
+  res.json({ message: 'Registration Done! Wait for admin approval.' });
 });
 
-// Admin Routes
+// Admin APIs
 app.post('/admin/lobby', async (req, res) => {
   await new Lobby(req.body).save();
-  res.json({ message: 'Lobby Created' });
+  res.json({ message: 'Lobby Created Successfully!' });
 });
 
 app.post('/admin/verify', async (req, res) => {
   await Team.findOneAndUpdate({ utrNumber: req.body.utr }, { isVerified: true });
-  res.json({ message: 'Team Verified' });
+  res.json({ message: 'Team Verified!' });
 });
 
 app.post('/admin/update-score', async (req, res) => {
   const { teamName, kills, placement } = req.body;
-  await Team.findOneAndUpdate({ teamName }, { $inc: { kills, placement } });
-  res.json({ message: 'Scoreboard Updated!' });
+  await Team.findOneAndUpdate({ teamName }, { $inc: { kills: kills, placement: placement } });
+  res.json({ message: 'Scoreboard Updated Successfully!' });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
