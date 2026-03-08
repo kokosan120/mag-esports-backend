@@ -1,9 +1,97 @@
-<div class="admin-form" style="max-width: 500px; margin: 50px auto; background: #111; padding: 30px; border-radius: 20px;">
-    <h2>CREATE LOBBY</h2>
-    <input type="text" id="n" placeholder="Lobby Name">
-    <input type="text" id="m" placeholder="Mode (Squad)">
-    <input type="text" id="t" placeholder="Time (04:00 PM)">
-    <input type="text" id="map" placeholder="Map">
-    <input type="text" id="f" placeholder="Fee (e.g. 50)">
-    <button onclick="addLobby()">PUBLISH LOBBY</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MAG ESPORTS | Admin Control</title>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #050508; color: #fff; padding: 20px; }
+        .card { background: #111; padding: 25px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #333; }
+        h2 { color: #ff416c; font-family: 'Orbitron'; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 8px; box-sizing: border-box; }
+        button { background: linear-gradient(45deg, #ff416c, #ff4b2b); color: #fff; border: none; padding: 12px 25px; cursor: pointer; border-radius: 8px; font-weight: bold; width: 100%; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    </style>
+</head>
+<body>
+    <h2>MAG ESPORTS ADMIN</h2>
+
+    <div class="card">
+        <h3>1. Create Lobby</h3>
+        <input type="text" id="ln" placeholder="Lobby Name (e.g. Match 1)">
+        <div class="grid">
+            <input type="text" id="lm" placeholder="Mode (Squad)">
+            <input type="text" id="lt" placeholder="Time (06:00 PM)">
+        </div>
+        <button onclick="addLobby()">Publish Lobby</button>
+    </div>
+
+    <div class="card">
+        <h3>2. Verify Payment</h3>
+        <input type="text" id="v_utr" placeholder="Enter Team UTR Number">
+        <button onclick="verify()" style="background: #0072ff;">Verify Team</button>
+    </div>
+
+    <div class="card">
+        <h3>3. Update Match Results (Official System)</h3>
+        <input type="text" id="p_team" placeholder="Team Name">
+        <div class="grid">
+            <input type="number" id="p_kills" placeholder="Kills (1 pt each)">
+            <select id="p_place">
+                <option value="12">1st (Booyah) - 12 pts</option>
+                <option value="9">2nd Place - 9 pts</option>
+                <option value="8">3rd Place - 8 pts</option>
+                <option value="7">4th Place - 7 pts</option>
+                <option value="6">5th Place - 6 pts</option>
+                <option value="5">6th Place - 5 pts</option>
+                <option value="4">7th Place - 4 pts</option>
+                <option value="3">8th Place - 3 pts</option>
+                <option value="2">9th Place - 2 pts</option>
+                <option value="1">10th Place - 1 pt</option>
+                <option value="0">11th-12th Place - 0 pt</option>
+            </select>
+        </div>
+        <button onclick="updatePoints()" style="background: #4CAF50;">Update Scoreboard</button>
+    </div>
+
+    <script>
+        const backend = "https://mag-esports-backend.onrender.com";
+
+        async function addLobby() {
+            await fetch(`${backend}/admin/lobby`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: document.getElementById('ln').value,
+                    mode: document.getElementById('lm').value,
+                    time: document.getElementById('lt').value,
+                    map: "Bermuda", // Default
+                    fee: "50" // Default
+                })
+            });
+            alert("Lobby Live Ho Gayi!");
+        }
+
+        async function verify() {
+            const res = await fetch(`${backend}/admin/verify`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ utr: document.getElementById('v_utr').value })
+            });
+            alert("Team Verified!");
+        }
+
+        async function updatePoints() {
+            const team = document.getElementById('p_team').value;
+            const kills = document.getElementById('p_kills').value;
+            const placement = document.getElementById('p_place').value;
+
+            const res = await fetch(`${backend}/admin/update-score`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ teamName: team, kills: parseInt(kills), placement: parseInt(placement) })
+            });
+            alert("Points Updated!");
+        }
+    </script>
+</body>
+</html>

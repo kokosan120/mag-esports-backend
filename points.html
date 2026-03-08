@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAG ESPORTS | Leaderboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ff416c; --secondary: #0072ff; --bg: #050508; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: #fff; text-align: center; }
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .logo-text { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; color: var(--primary); }
+        .nav-links a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 14px; opacity: 0.8; }
+
+        .header { padding: 50px 20px; }
+        .header h1 { font-family: 'Orbitron'; font-size: 2.5rem; margin-bottom: 10px; color: #fff; }
+
+        .table-container { width: 95%; max-width: 800px; margin: 0 auto 50px; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: linear-gradient(90deg, var(--primary), #ff4b2b); }
+        th { padding: 20px; font-family: 'Orbitron'; font-size: 14px; letter-spacing: 1px; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 500; }
+        tr:hover { background: rgba(255,255,255,0.05); }
+
+        .rank-1 { color: #ffd700; font-weight: bold; } /* Gold color for Rank 1 */
+        .rank-2 { color: #c0c0c0; } /* Silver */
+        .rank-3 { color: #cd7f32; } /* Bronze */
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-text">MAG ESPORTS</div>
+        <div class="nav-links">
+            <a href="index.html">Lobbies</a>
+            <a href="points.html">Leaderboard</a>
+            <a href="admin.html">Admin</a>
+        </div>
+    </nav>
+
+    <div class="header">
+        <h1>LEADERBOARD</h1>
+        <p style="color: #888;">Live standings of verified teams</p>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team Name</th>
+                    <th>Kills</th>
+                    <th>Placement</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardData">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+        const backend = "https://mag-esports-backend.onrender.com";
+
+        async function fetchPoints() {
+            try {
+                const res = await fetch(`${backend}/points`);
+                const teams = await res.json();
+                const container = document.getElementById('leaderboardData');
+
+                // Sort teams by total points (Kills + Placement)
+                const sorted = teams.sort((a, b) => (b.kills + b.placement) - (a.kills + a.placement));
+
+                container.innerHTML = sorted.map((t, index) => `
+                    <tr>
+                        <td class="rank-${index + 1}">#${index + 1}</td>
+                        <td>${t.teamName}</td>
+                        <td>${t.kills}</td>
+                        <td>${t.placement}</td>
+                        <td style="color: var(--secondary); font-weight: 800;">${t.kills + t.placement}</td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error("Error loading points:", err);
+            }
+        }
+        fetchPoints();
+    </script>
+</body>
+</html>
