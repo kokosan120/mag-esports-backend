@@ -3,210 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAG ESPORTS - Professional Tournaments</title>
+    <title>MAG ESPORTS | Automated Booking</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: #0d0d12;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: radial-gradient(circle at top right, #1a1a2e, #0d0d12);
-        }
-
-        .container {
-            background: #16161e;
-            width: 90%;
-            max-width: 400px;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            text-align: center;
-            border: 1px solid #2a2a35;
-        }
-
-        .logo {
-            width: 130px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        h2 {
-            margin: 0 0 5px;
-            font-weight: 800;
-            font-size: 24px;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, #ff416c, #ff4b2b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        p.subtitle {
-            color: #8a8a9e;
-            font-size: 13px;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            background: #20202b;
-            border: 1px solid #323242;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #ff416c;
-            background: #252532;
-            box-shadow: 0 0 10px rgba(255, 65, 108, 0.2);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            box-sizing: border-box;
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .btn-pay {
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            color: #fff;
-            margin-bottom: 15px;
-        }
-
-        .btn-pay:hover {
-            box-shadow: 0 5px 20px rgba(0, 114, 255, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .divider {
-            position: relative;
-            margin: 25px 0;
-            text-align: center;
-        }
-
-        .divider::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: #323242;
-        }
-
-        .divider span {
-            position: relative;
-            background: #16161e;
-            padding: 0 15px;
-            color: #6c6c80;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .btn-submit {
-            background: #ff416c;
-            color: white;
-            margin-top: 10px;
-        }
-
-        .btn-submit:hover {
-            background: #ff4b2b;
-            box-shadow: 0 5px 20px rgba(255, 65, 108, 0.4);
-            transform: translateY(-2px);
-        }
+        body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: #0d0d12; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: #16161e; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: center; border: 1px solid #2a2a35; }
+        .logo { width: 120px; border-radius: 12px; margin-bottom: 10px; }
+        h2 { margin: 0; font-weight: 800; background: linear-gradient(90deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p { color: #8a8a9e; font-size: 12px; margin-bottom: 25px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; background: #20202b; border: 1px solid #323242; border-radius: 8px; color: #fff; box-sizing: border-box; outline: none; }
+        .btn { width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; text-decoration: none; display: inline-block; box-sizing: border-box; }
+        .btn-pay { background: #0072ff; color: #fff; margin-bottom: 15px; }
+        .btn-submit { background: #ff416c; color: #fff; }
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+        .divider { margin: 20px 0; border-top: 1px solid #323242; position: relative; }
+        .divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #16161e; padding: 0 10px; font-size: 10px; color: #6c6c80; }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <img src="logo.jpg" alt="MAG ESPORTS Logo" class="logo">
-
+        <img src="logo.jpg" alt="MAG ESPORTS" class="logo">
         <h2>MAG ESPORTS</h2>
-        <p class="subtitle">Automated Tournament Booking</p>
+        <p>FIRST EVER AUTOMATED BOOKING FACILITY</p>
 
-        <div class="input-group">
-            <input type="text" id="teamName" placeholder="Enter Team Name" required>
-        </div>
+        <input type="text" id="teamName" placeholder="Team Name">
+        <input type="password" id="secretToken" placeholder="Create Password">
 
-        <div class="input-group">
-            <input type="password" id="secretToken" placeholder="Create Secret Password" required>
-        </div>
+        <a href="upi://pay?pa=yourupi@bank&pn=MAGESPORTS&am=50.00&cu=INR" class="btn btn-pay">Pay ₹50 via UPI App</a>
 
-        <a href="upi://pay?pa=yourupi@bank&pn=MAGESPORTS&am=50.00&cu=INR" class="btn btn-pay">
-            Pay ₹50 via UPI
-        </a>
+        <div class="divider"><span>AFTER PAYMENT</span></div>
 
-        <div class="divider">
-            <span>AFTER PAYMENT</span>
-        </div>
-
-        <div class="input-group">
-            <input type="text" id="utr" placeholder="Enter 12-Digit UTR Number" required>
-        </div>
-
+        <input type="text" id="utr" placeholder="Enter 12-Digit UTR">
         <button class="btn btn-submit" onclick="registerTeam()">Verify & Register</button>
     </div>
 
     <script>
-        // Yahan apna backend link daalna hosting ke baad
-        const backendUrl = "https://your-backend-url.onrender.com";
+        // Aapka Live Render Link
+        const backendUrl = "https://mag-esports-backend.onrender.com";
 
         async function registerTeam() {
             const teamName = document.getElementById('teamName').value;
             const secretToken = document.getElementById('secretToken').value;
-            const utr = document.getElementById('utr').value;
+            const utrNumber = document.getElementById('utr').value;
 
-            if(!teamName || !secretToken || !utr) {
-                alert("Please fill all details and enter UTR after payment.");
-                return;
-            }
-
-            const btn = document.querySelector('.btn-submit');
-            btn.innerText = "Processing...";
-            btn.style.opacity = "0.7";
+            if(!teamName || !secretToken || !utrNumber) return alert("All fields are required!");
 
             try {
-                const response = await fetch(`${backendUrl}/register`, {
+                const res = await fetch(`${backendUrl}/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ teamName, secretToken, utrNumber: utr })
+                    body: JSON.stringify({ teamName, secretToken, utrNumber })
                 });
-
-                const data = await response.json();
-                alert(data.message || "Registration Submitted! Wait for verification.");
-
-            } catch (error) {
-                alert("Server error. Please try again.");
-            } finally {
-                btn.innerText = "Verify & Register";
-                btn.style.opacity = "1";
+                const data = await res.json();
+                alert(data.message);
+            } catch (err) {
+                alert("Server Connection Error!");
             }
         }
     </script>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAG ESPORTS | Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #050508; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .reg-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; width: 90%; max-width: 400px; backdrop-filter: blur(10px); }
+        h2 { font-family: 'Orbitron'; color: #ff416c; text-align: center; margin-bottom: 30px; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; background: #111; border: 1px solid #333; border-radius: 8px; color: #fff; box-sizing: border-box; }
+        .pay-btn { display: block; background: #0072ff; color: #fff; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-bottom: 20px; }
+        .submit-btn { width: 100%; padding: 12px; background: #ff416c; border: none; border-radius: 8px; color: #fff; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="reg-card">
+        <h2 id="lobbyTitle">Register</h2>
+        <input type="text" id="tName" placeholder="Team Name">
+        <input type="password" id="sToken" placeholder="Create Secret Password">
+
+        <a href="upi://pay?pa=yourupi@bank&pn=MAGESPORTS&am=50.00&cu=INR" class="pay-btn">Pay Entry Fee via UPI</a>
+
+        <p style="font-size: 11px; color: #666; text-align: center;">Enter UTR after payment</p>
+        <input type="text" id="utr" placeholder="12-Digit UTR Number">
+
+        <button class="submit-btn" onclick="submitReg()">Submit Registration</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const lobbyName = urlParams.get('lobby') || "Tournament";
+        document.getElementById('lobbyTitle').innerText = "Register: " + lobbyName;
+
+        async function submitReg() {
+            const backend = "https://mag-esports-backend.onrender.com";
+            const res = await fetch(`${backend}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    teamName: document.getElementById('tName').value,
+                    secretToken: document.getElementById('sToken').value,
+                    utrNumber: document.getElementById('utr').value
+                })
+            });
+            const data = await res.json();
+            alert(data.message);
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
