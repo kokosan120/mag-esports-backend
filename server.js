@@ -6,12 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection
+// 1. MongoDB Connection
 mongoose.connect('mongodb+srv://tinyji6887_db_user:85158@cluster0.zu7kwc5.mongodb.net/magesports?appName=Cluster0')
 .then(() => console.log('Database Connected!'))
-.catch(err => console.log("DB Connection Error:", err));
+.catch(err => console.log("DB Error:", err));
 
-// Schemas
+// 2. Data Models (Schemas)
 const Team = mongoose.model('Team', new mongoose.Schema({
   teamName: String, secretToken: String, utrNumber: String,
   isVerified: { type: Boolean, default: false },
@@ -23,15 +23,15 @@ const Lobby = mongoose.model('Lobby', new mongoose.Schema({
   status: { type: String, default: "Open" }
 }));
 
-// User APIs
+// 3. User Routes
 app.get('/lobbies', async (req, res) => { res.json(await Lobby.find()); });
 app.get('/points', async (req, res) => { res.json(await Team.find({ isVerified: true })); });
 app.post('/register', async (req, res) => {
   await new Team(req.body).save();
-  res.json({ message: 'Registration Done! Wait for admin approval.' });
+  res.json({ message: 'Registration Done! Admin will verify soon.' });
 });
 
-// Admin APIs
+// 4. Admin Routes
 app.post('/admin/lobby', async (req, res) => {
   await new Lobby(req.body).save();
   res.json({ message: 'Lobby Created Successfully!' });
@@ -45,8 +45,9 @@ app.post('/admin/verify', async (req, res) => {
 app.post('/admin/update-score', async (req, res) => {
   const { teamName, kills, placement } = req.body;
   await Team.findOneAndUpdate({ teamName }, { $inc: { kills: kills, placement: placement } });
-  res.json({ message: 'Scoreboard Updated Successfully!' });
+  res.json({ message: 'Scoreboard Updated!' });
 });
 
+// 5. Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
